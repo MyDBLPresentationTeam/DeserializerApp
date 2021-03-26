@@ -24,7 +24,8 @@ jobs:
 
     - name: get current directory
       shell: powershell
-      run: [system.environment]::getenvironmentvariables()
+      run: |
+        [system.environment]::getenvironmentvariables()
 
     # - name: Build
     #   working-directory: ${{env.GITHUB_WORKSPACE}}
