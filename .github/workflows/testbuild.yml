@@ -34,7 +34,7 @@ jobs:
 
     - name: Run Tests
       shell: cmd
-      run: vstest.console.exe ${{env.GITHUB_WORKSPACE}}\src\Release\x86\DeserializerTests.elb /Logger:trx;LogFileName=TestResults.trx
+      run: vstest.console.exe .\src\Release\x86\DeserializerTests.elb /Logger:trx;LogFileName=TestResults.trx
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
