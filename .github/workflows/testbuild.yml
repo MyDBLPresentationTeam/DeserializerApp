@@ -22,10 +22,14 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
-    - name: get current directory
+    - name: get env vars
       shell: powershell
       run: |
         [system.environment]::getenvironmentvariables()
+
+    - name: set code page
+      shell: cmd
+      run: CHCP 437
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
