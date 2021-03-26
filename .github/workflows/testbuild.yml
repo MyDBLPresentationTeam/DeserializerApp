@@ -22,10 +22,8 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
-    - name: get env vars
-      shell: powershell
-      run: |
-        [system.environment]::getenvironmentvariables()
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -33,3 +31,20 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       shell: cmd
       run: CHCP 437 && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.SOLUTION_FILE_PATH}} /bl
+
+    - name: Run Tests
+      run: vstest.console.exe ${{env.GITHUB_WORKSPACE}}\src\Release\x86\DeserializerTests.elb /Logger:trx;LogFileName=TestResults.trx
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      with:
+        files: TestResults/*.trx
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Deserializer
+        path: |
+          src\Release
+          !src\Release\DeserializerTests*
+          !src\Release\SynergyTraditionalUnitTest.TestAdapter.dll
+          !src\Release\*.dbp
