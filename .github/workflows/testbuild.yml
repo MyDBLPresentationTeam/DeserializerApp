@@ -22,11 +22,9 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
-    - uses: Amadevus/pwsh-script@v2
-      id: my-script
-      with:
-        script: '$pwd'
-    - run: echo "${{ steps.my-script.outputs.result }}"
+    - name: get current directory
+      shell: powershell
+      script: Write-Host $pwd
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
