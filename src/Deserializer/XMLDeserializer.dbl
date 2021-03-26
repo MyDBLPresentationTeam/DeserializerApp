@@ -1,0 +1,93 @@
+import System.Collections
+import DataObjectLibrary
+
+namespace Deserializer
+
+	public class XMLDeserializer extends Deserializer
+		
+		public override method Deserialize, @ArrayList
+			filePath, string
+			endparams
+
+			.include "DBLDIR:synxml.def"
+
+			record
+				xmlParser, XML_PARSER_TYPE
+				xmlDoc, XML_DOC_TYPE
+				rootNode, XML_ELEM_TYPE
+				rootChildren, XML_ELEMLIST_TYPE
+				itemsNode, XML_ELEM_TYPE
+				itemsElements, XML_ELEMLIST_TYPE
+				itemsElement, XML_ELEM_TYPE
+				elementIterator, int
+				elementName, a256
+				status, i4
+
+				itemsList, @ArrayList
+			endrecord
+		proc
+			itemsList = new ArrayList()
+
+			xmlParser = %xml_parser_create
+			xmlDoc = %xml_parser_parsefile(xmlParser, filePath) ; Returns 0 if not successful
+
+			if (xmlDoc) ; If we could parse the file
+			begin
+				rootNode = %xml_doc_getroot(xmlDoc)
+
+				if (rootNode) ; If the root node was found
+				begin
+					rootChildren = %xml_elem_children(rootNode)
+					; Have children of the root node. Still need to get the list of children under the Items node
+					for elementIterator from 1 thru %xml_elemlist_count(rootChildren) by 1
+					begin
+						data tempElement, XML_ELEM_TYPE, %xml_elemlist_item(rootChildren, elementIterator)
+						status = %xml_elem_getname(tempElement, elementName)
+						if (status == XML_SUCCESS && %atrim(elementName) == "Items")
+						begin
+							itemsNode = tempElement
+							exitloop
+						end
+					end
+					
+					if (itemsNode) ; If we have found the items node
+					begin
+						itemsElements = %xml_elem_children(itemsNode)
+						clear(elementIterator)
+						for elementIterator from 1 thru %xml_elemlist_count(itemsElements) by 1
+						begin
+							data elementAttributeValue, a256
+							data itemData = new Item()
+							data element, XML_ELEM_TYPE, %xml_elemlist_item(itemsElements, elementIterator)
+
+                            ; Attempt to parse data into item properties
+							if (%xml_elem_getattribute(element, "Name", elementAttributeValue) == XML_SUCCESS)
+							begin
+								itemData.Name = (string)%atrim(elementAttributeValue)
+								clear(elementAttributeValue)
+							end
+							if (%xml_elem_getattribute(element, "Number", elementAttributeValue) == XML_SUCCESS)
+							begin
+								itemData.Number = %integer(%atrim(elementAttributeValue))
+								clear(elementAttributeValue)
+							end
+							if (%xml_elem_getattribute(element, "Price", elementAttributeValue) == XML_SUCCESS)
+							begin
+								itemData.Price = %implied(%atrim(elementAttributeValue))
+								clear(elementAttributeValue)
+							end
+
+							itemsList.Add(itemData)
+						end
+					end
+				end
+			end
+			
+
+			mreturn itemsList
+			
+		endmethod
+
+	endclass
+
+endnamespace

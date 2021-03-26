@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Items>
+    <Item Name="Screwdriver" Number="1234" Price="10.99"/>
+    <Item Name="Nails" Number="524" Price="5.99"/>
+    <Item Name="2x4" Number="284" Price="2.99"/>
+    <Item Name="Paint" Number="1357" Price="15.99"/>
+    <Item Name="Ladder" Number="24680" Price="25.99"/>
+  </Items>
+</root>

@@ -1,0 +1,20 @@
+namespace DataObjectLibrary
+
+	public class Item
+		public readwrite property Name, string
+		public readwrite property Number, int
+		public readwrite property Price, double
+
+		public override method Equals, boolean
+			obj, @Object
+			endparams
+			record
+				otherItem, @Item
+			endrecord
+		proc
+			otherItem = (Item)obj
+			mreturn this.Name == otherItem.Name && this.Number == otherItem.Number && this.Price == otherItem.Price
+		endmethod
+	endclass
+
+endnamespace

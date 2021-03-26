@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="restore;Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)Common.props" />
+  <PropertyGroup>
+    <Language>Synergy</Language>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Configuration)' == '' ">x86</Platform>
+    <Name>DeserializerTests</Name>
+    <StartupObject>
+    </StartupObject>
+    <OutputName>DeserializerTests</OutputName>
+    <ProjectGuid>{c42903cd-0bcb-4c7e-b23e-e17eba1ffe71}</ProjectGuid>
+    <ProjectTypeGuids>{7B8CF543-378A-4EC1-BB1B-98E4DC6E6820};{BBD0F5D1-1CC4-42fd-BA4C-A96779C64378}</ProjectTypeGuids>
+    <OutputType>elb</OutputType>
+    <DBL_qTrim>True</DBL_qTrim>
+    <DBL_qAlign>True</DBL_qAlign>
+    <EnableCommonProperties>True</EnableCommonProperties>
+    <MinimumRuntimeLevel>11010104</MinimumRuntimeLevel>
+    <TestProjectType>TraditionalUnitTest</TestProjectType>
+    <CommonPropertiesFileLocation>$(SolutionDir)Common.props</CommonPropertiesFileLocation>
+    <RootNamespace>DeserializerTests</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+    <OutputPath>$(SolutionDir)$(Configuration)\$(Platform)</OutputPath>
+    <UnevaluatedOutputPath>EXEDIR:</UnevaluatedOutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DebugOptimize>Debug</DebugOptimize>
+    <DBLink_ReferenceCheck>False</DBLink_ReferenceCheck>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+    <OutputPath>$(SolutionDir)$(Configuration)\$(Platform)</OutputPath>
+    <UnevaluatedOutputPath>EXEDIR:</UnevaluatedOutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DebugOptimize>Debug</DebugOptimize>
+    <DBLink_ReferenceCheck>True</DBLink_ReferenceCheck>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+    <OutputPath>$(SolutionDir)$(Configuration)\$(Platform)</OutputPath>
+    <UnevaluatedOutputPath>EXEDIR:</UnevaluatedOutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DebugOptimize>Optimize</DebugOptimize>
+    <DBLink_ReferenceCheck>True</DBLink_ReferenceCheck>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+    <OutputPath>$(SolutionDir)$(Configuration)\$(Platform)</OutputPath>
+    <UnevaluatedOutputPath>EXEDIR:</UnevaluatedOutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DebugOptimize>Optimize</DebugOptimize>
+    <DBLink_ReferenceCheck>True</DBLink_ReferenceCheck>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DeserializerFactoryTests.dbl" />
+    <Compile Include="JSONDeserializerTests.dbl" />
+    <Compile Include="XMLDeserializerTests.dbl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SYNTRADUT:TestFramework.elb">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataObjectLibrary\DataObjectLibrary.synproj">
+      <Name>DataObjectLibrary</Name>
+      <Project>{2be702d2-21eb-4a14-92a5-adc924ee9ecf}</Project>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Deserializer\Deserializer.synproj">
+      <Name>Deserializer</Name>
+      <Project>{8878e376-0aa3-4098-83d0-f75c3e07dbe5}</Project>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestDataFiles" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestDataFiles\Empty.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TestDataFiles\Empty.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TestDataFiles\FiveItems.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TestDataFiles\FiveItems.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TestDataFiles\SingleItem.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="TestDataFiles\SingleItem.xml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Synergex\dbl\Synergex.SynergyDE.Traditional.UnitTest.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

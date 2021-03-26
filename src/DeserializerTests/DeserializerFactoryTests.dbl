@@ -1,0 +1,60 @@
+﻿import Synergex.TestFramework
+import Deserializer
+
+namespace DeserializerTests
+
+	{TestClass}
+	public class DeserializerFactoryTests
+
+		private testFile, string
+
+		{TestInitialize}
+		{TestCategory("DeserializerFactory")}
+		public method TestInit, void
+			endparams
+		proc
+		endmethod
+		
+		{TestMethod}
+		{TestCategory("DeserializerFactory")}
+		public method DetermineJSONDeserializer, void
+			endparams
+		proc
+
+		endmethod
+
+		{TestMethod}
+		{TestCategory("DeserializerFactory")}
+		public method DetermineXMLDeserializer, void
+			endparams
+		proc
+
+		endmethod
+
+		{TestMethod}
+		{TestCategory("DeserializerFactory")}
+		public method DetermineUnkownWhenFileDNE, void
+			endparams
+		proc
+			
+		endmethod
+
+		{TestMethod}
+		{TestCategory("DeserializerFactory")}
+		public method DetermineUnkownDeserializerWhenFileExists, void
+			endparams
+		proc
+			
+		endmethod
+
+		{TestMethod}
+		{TestCategory("DeserializerFactory")}
+		public method GetDeserializerExceptionOnUnknownFileType, void
+			endparams
+		proc
+		
+		endmethod
+
+	endclass
+
+endnamespace

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Items>
+    <Item Name="Screwdriver" Number="1234" Price="10.99"/>
+  </Items>
+</root>

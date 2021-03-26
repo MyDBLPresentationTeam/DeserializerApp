@@ -1,0 +1,21 @@
+import System.Collections
+import Synergex.TestFramework.Internal
+
+namespace Deserializer
+	public abstract class Deserializer
+
+		public abstract method Deserialize, @ArrayList
+			filePath, string
+			endparams
+		proc
+		endmethod
+		
+		public method StringifyContent, string
+			filePath, string
+			endparams
+		proc
+			mreturn File.ReadAllText(filePath)
+		endmethod
+	endclass
+
+endnamespace

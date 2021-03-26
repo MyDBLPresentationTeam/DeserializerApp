@@ -1,0 +1,29 @@
+{
+  "Items": [
+    {
+      "Name": "Screwdriver",
+      "Number": 1234,
+      "Price": 10.99
+    },
+    {
+      "Name": "Nails",
+      "Number": 524,
+      "Price": 5.99
+    },
+    {
+      "Name": "2x4",
+      "Number": 284,
+      "Price": 2.99
+    },
+    {
+      "Name": "Paint",
+      "Number": 1357,
+      "Price": 15.99
+    },
+    {
+      "Name": "Ladder",
+      "Number": 24680,
+      "Price": 25.99
+    }
+  ]
+}

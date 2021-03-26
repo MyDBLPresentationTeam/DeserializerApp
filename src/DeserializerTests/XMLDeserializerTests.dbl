@@ -1,0 +1,106 @@
+import Synergex.TestFramework
+import Deserializer
+import DataObjectLibrary
+import System.Collections
+
+namespace DeserializerTests
+
+	{TestClass}
+	public class XMLDeserializerTests
+
+		private testFile, string
+		private testDeserializer, @Deserializer
+
+		{TestInitialize}
+		{TestCategory("XMLDeserializer")}
+		public method TestInitialize, void
+			endparams
+		proc
+			testFile = TestProperties.GetProperty("TestFile")
+			testDeserializer = DeserializerFactory.GetDeserializer(DeserializerFactory.WhichDeserializer(testFile))
+		endmethod
+
+		{TestCleanup}
+		{TestCategory("XMLDeserializer")}
+		public method TestCleanup, void
+			endparams
+		proc
+			clear(testFile)
+			clear(testDeserializer)
+		endmethod
+
+		{TestMethod}
+		{TestCategory("XMLDeserializer")}
+		{TestProperty("TestFile", "..\..\DeserializerTests\TestDataFiles\Empty.xml")}
+		public method NoData, void
+			endparams
+		proc
+			Assert.AreEqual(testDeserializer.Deserialize(testFile).Count, 0)
+		endmethod
+
+		{TestMethod}
+		{TestCategory("XMLDeserializer")}
+		{TestProperty("TestFile", "..\..\DeserializerTests\TestDataFiles\SingleItem.xml")}
+		public method SingleItem, void
+			endparams
+			record
+				testItem, @Item
+				itemsList, @ArrayList
+				tempName, string
+				tempNumber, int
+				tempPrice, double
+				tempTestPrice, double
+			endrecord
+		proc
+			testItem = new Item() { Name = "Screwdriver", Number = 1234, Price = 10.99 } ; Test item
+			itemsList = testDeserializer.Deserialize(testFile)
+			Assert.AreEqual(itemsList.Count, 1) ; Assert the count is correct
+			Assert.AreEqual((itemsList[0]), testItem) ; Assert the item info is correct
+		endmethod
+
+		{TestMethod}
+		{TestCategory("XMLDeserializer")}
+		{TestProperty("TestFile", "..\..\DeserializerTests\TestDataFiles\FiveItems.xml")}
+		public method FiveItems, void
+			endparams
+			record
+				item1, @Item
+				item2, @Item
+				item3, @Item
+				item4, @Item
+				item5, @Item
+				testItemsList, @ArrayList
+				deserializerResult, @ArrayList
+				itemIterator, @Item
+			endrecord
+		proc
+			; Test items
+			item1 = new Item() { Name = "Screwdriver", Number = 1234, Price = 10.99 }
+			item2 = new Item() { Name = "Nails", Number = 524, Price = 5.99 }
+			item3 = new Item() { Name = "2x4", Number = 284, Price = 2.99 }
+			item4 = new Item() { Name = "Paint", Number = 1357, Price = 15.99 }
+			item5 = new Item() { Name = "Ladder", Number = 24680, Price = 25.99 }
+			testItemsList = new ArrayList()
+			testItemsList.Add(item1)
+			testItemsList.Add(item2)
+			testItemsList.Add(item3)
+			testItemsList.Add(item4)
+			testItemsList.Add(item5)
+
+			deserializerResult = testDeserializer.Deserialize(testFile)
+			Assert.AreEqual(deserializerResult.Count, 5) ; Assert the count is correct
+
+			foreach itemIterator in testItemsList
+			begin
+				data deserializerResultIndex = 0
+
+				deserializerResultIndex = deserializerResult.IndexOf(itemIterator)
+
+				Assert.IsTrue(deserializerResultIndex != -1) ; Assert we found an item
+				Assert.AreEqual(itemIterator, deserializerResult[deserializerResultIndex]) ; Assert the items are equal (redundant)
+			end
+		endmethod
+
+	endclass
+
+endnamespace

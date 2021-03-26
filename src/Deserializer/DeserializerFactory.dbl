@@ -1,0 +1,54 @@
+import System.Text
+import Synergex.TestFramework.Internal
+
+namespace Deserializer
+
+	public static class DeserializerFactory
+
+		public static method GetDeserializer, @Deserializer
+			deserializerType, DeserializerTypes
+			endparams
+		proc
+			; Get deserializer based on a specified type
+			case (deserializerType) of
+			begincase
+			DeserializerTypes.JSON:
+				mreturn new JSONDeserializer()
+			DeserializerTypes.XML:
+				mreturn new XMLDeserializer()
+			DeserializerTypes.UNKNOWN: ; Default case. Can't get a deserializer for an unknown file type
+				throw new FileIOException("File is not of a parsable type")
+			endcase
+		endmethod
+
+		public static method WhichDeserializer, DeserializerTypes
+			dataFilePath, string
+			endparams
+			record
+				result, DeserializerTypes
+			endrecord
+		proc
+			; Set default value
+			result = DeserializerTypes.UNKNOWN
+
+			; If the file exists, check the extension to determine the type
+			if (File.Exists(dataFilePath))
+			begin
+				if (dataFilePath.EndsWith(".xml")) then
+					result = DeserializerTypes.XML
+				else if (dataFilePath.EndsWith(".json"))
+					result = DeserializerTypes.JSON
+			end
+
+			mreturn result
+		endmethod
+
+	endclass
+
+	public enum DeserializerTypes
+		UNKNOWN
+		JSON
+		XML
+	endenum
+
+endnamespace

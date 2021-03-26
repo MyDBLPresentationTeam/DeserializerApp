@@ -348,3 +348,13 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Synergy Files
+*.ism
+*.is1
+*.elb
+*.obj
+*.dbr
+*.dbp
+*.timestamp
+*.dep

@@ -1,0 +1,55 @@
+import System.Collections
+import DataObjectLibrary
+import System.Text.Json
+
+namespace Deserializer
+
+	public class JSONDeserializer extends Deserializer
+		public override method Deserialize, @ArrayList
+			filePath, string
+			endparams
+			record
+				rawFileContent, string
+				jsonDoc, @JSONDocument
+				itemsList, @ArrayList
+				tempItem, @Item
+				itemsArray, @JsonElement
+				iterator, int
+				arraySize, int
+				tempElement, @JsonElement
+			endrecord
+		proc
+			itemsList = new ArrayList()
+			rawFileContent = StringifyContent(filePath)
+			jsonDoc = JsonDocument.Parse(rawFileContent)
+
+			if (jsonDoc.RootElement.TryGetProperty("Items", itemsArray)) ; If there's items data in the file
+			begin
+				arraySize = itemsArray.GetArrayLength()
+				for iterator from 0 thru arraySize - 1
+				begin
+					; re init item data
+					tempItem = new Item()
+					clear(tempElement)
+					
+					; Attempt to parse data into item properties
+					if (itemsArray[iterator].TryGetProperty("Name", tempElement))
+						tempItem.Name = tempElement.GetString()
+					clear(tempElement)
+					if (itemsArray[iterator].TryGetProperty("Number", tempElement))
+						tempItem.Number = tempElement.GetInt32()
+					clear(tempElement)
+					if (itemsArray[iterator].TryGetProperty("Price", tempElement))
+						tempItem.Price = tempElement.GetDecimal()
+
+					itemsList.Add(tempItem)
+				end
+			end
+			; Else there's no items data in the file
+
+			mreturn itemsList
+		endmethod
+
+	endclass
+
+endnamespace
