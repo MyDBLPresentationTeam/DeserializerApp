@@ -33,6 +33,7 @@ jobs:
       run: CHCP 437 && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.SOLUTION_FILE_PATH}} /bl
 
     - name: Run Tests
+      shell: cmd
       run: vstest.console.exe ${{env.GITHUB_WORKSPACE}}\src\Release\x86\DeserializerTests.elb /Logger:trx;LogFileName=TestResults.trx
 
     - name: Publish Unit Test Results
