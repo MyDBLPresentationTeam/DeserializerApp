@@ -34,7 +34,7 @@ jobs:
 
     - name: Run Tests
       shell: cmd
-      run: CHCP 437 && vstest.console.exe .\src\Release\x86\DeserializerTests.elb /Logger:xml;LogFileName=TestResults.xml
+      run: CHCP 437 && vstest.console.exe .\src\Release\x86\DeserializerTests.elb
 
     - uses: actions/upload-artifact@v2
       with:
