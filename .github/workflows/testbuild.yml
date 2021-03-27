@@ -34,12 +34,7 @@ jobs:
 
     - name: Run Tests
       shell: cmd
-      run: CHCP 437 && vstest.console.exe .\src\Release\x86\DeserializerTests.elb /Logger:trx;LogFileName=TestResults.trx
-
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      with:
-        files: TestResults/*.trx
+      run: CHCP 437 && vstest.console.exe .\src\Release\x86\DeserializerTests.elb /Logger:xml;LogFileName=TestResults.xml
 
     - uses: actions/upload-artifact@v2
       with:
