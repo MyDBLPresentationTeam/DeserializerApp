@@ -45,7 +45,7 @@ jobs:
 
     - name: Unzip Artifact
       shell: powershell
-      run: Expand-Archive -Path .\Artifacts\Deserializer(32-bit).zip -Destination .\Artifacts\Deserializer(32-bit) -Force
+      run: Expand-Archive -Path ".\Artifacts\Deserializer(32-bit).zip" -Destination "".\Artifacts\Deserializer(32-bit) -Force"
 
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1
@@ -69,7 +69,7 @@ jobs:
 
     - name: Unzip Artifact
       shell: powershell
-      run: Expand-Archive -Path .\Artifacts\Deserializer(32-bit).zip -Destination .\Artifacts\Deserializer(32-bit) -Force
+      run: Expand-Archive -Path ".\Artifacts\Deserializer(32-bit).zip" -Destination "".\Artifacts\Deserializer(32-bit) -Force"
 
     - name: Release
       uses: ncipollo/release-action@v1
