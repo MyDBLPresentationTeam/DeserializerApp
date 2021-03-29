@@ -42,9 +42,12 @@ jobs:
       shell: powershell
       run: Copy-Item -Path ".\src\Release\x86\*" -Destination ".\Deserializer(32-bit)" -Exclude "*.dbp","SynergyTraditionalUnitTest.TestAdapter.dll"
 
-    - name: Create tag
+    - name: Create tag name
       id: create_tag
-      run: echo "::set-output name=tag::${{ env.GITHUB_SHA }}"
+      shell: powershell
+      run: |
+        $tag = [System.DateTime]::Now.ToString("yyyyMMddHHmmss")
+        echo "::set-output name=tag::$tag"
 
     - name: Create Draft Release
       id: create_release
