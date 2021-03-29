@@ -24,25 +24,6 @@ jobs:
       shell: cmd
       run: CHCP 437 && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.SOLUTION_FILE_PATH}} /bl
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Deserializer(32-bit)
-        path: |
-          src\Release\x86
-
-  test:
-    runs-on: self-hosted
-    needs: build
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Download Build Artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: Deserializer(32-bit)
-        path: .\Artifacts\Deserializer(32-bit)
-
     - name: Setup VSTest Path
       uses: darenm/Setup-VSTest@v1
 
@@ -50,23 +31,17 @@ jobs:
       shell: cmd
       run: CHCP 437 && vstest.console.exe .\Artifacts\Deserializer(32-bit)\DeserializerTests.elb
 
-  release:
-    runs-on: self-hosted
-    needs: test
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Download Build Artifact
-      uses: actions/download-artifact@v2
+    - name: Upload built files
+    - uses: actions/upload-artifact@v2
       with:
         name: Deserializer(32-bit)
-        path: .\Artifacts\Deserializer(32-bit)
+        path: |
+          src\Release\x86
 
     - name: Release
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.RELEASE_TOKEN }}
-        artifacts: Artifacts\Deserializer(32-bit)\*.elb,Artifacts\Deserializer(32-bit)\*.dbr
+        artifacts: .\src\Release\x86\*.elb,.\src\Release\x86\*.dbr
         body: New Deserializer Release
         name: Deserializer(32-bit)
