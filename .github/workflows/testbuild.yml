@@ -29,7 +29,7 @@ jobs:
 
     - name: Run Tests
       shell: cmd
-      run: CHCP 437 && vstest.console.exe .\Artifacts\Deserializer(32-bit)\DeserializerTests.elb
+      run: CHCP 437 && vstest.console.exe .\src\Release\x86\DeserializerTests.elb
 
     - name: Upload built files
       uses: actions/upload-artifact@v2
