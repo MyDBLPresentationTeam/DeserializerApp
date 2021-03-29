@@ -38,11 +38,13 @@ jobs:
         path: |
           src\Release\x86
 
+    - name: Create Release Package
+      shell: powershell
+      run: Copy-Item -Path ".\src\Release\x86\*" -Destination ".\Deserializer(32-bit)" -Exclude "*.dbp","SynergyTraditionalUnitTest.TestAdapter.dll"
+
     - name: Release
-      uses: ncipollo/release-action@v1
-      with:
-        token: ${{ secrets.RELEASE_TOKEN }}
-        artifacts: .\src\Release\x86\*.elb,.\src\Release\x86\*.dbr
-        body: New Deserializer Release
-        name: Deserializer(32-bit)
-        commit: main
+      uses: fnkr/github-action-ghr@v1
+      env:
+          GHR_COMPRESS: zip
+          GHR_PATH: .\Deserializer(32-bit)
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
