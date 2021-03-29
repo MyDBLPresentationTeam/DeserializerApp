@@ -52,7 +52,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
-        tag_name: ${{ step.create_tag.outputs.tag }}
+        tag_name: ${{ steps.create_tag.outputs.tag }}
         release_name: Deserializer (32-bit)
         draft: true
         prerelease: false
