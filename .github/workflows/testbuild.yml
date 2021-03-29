@@ -1,4 +1,4 @@
-name: MSBuild
+name: Build and Release
 
 on: [push]
 
@@ -6,9 +6,6 @@ env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .\src\DeserializerApp.sln
 
-  # Configuration type to build.
-  # You can convert this to a build matrix if you need coverage of multiple configuration types.
-  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
   BUILD_PLATFORM: x86
 
@@ -22,25 +19,60 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
-    - name: Setup VSTest Path
-      uses: darenm/Setup-VSTest@v1
-
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       shell: cmd
       run: CHCP 437 && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.SOLUTION_FILE_PATH}} /bl
 
-    - name: Run Tests
-      shell: cmd
-      run: CHCP 437 && vstest.console.exe .\src\Release\x86\DeserializerTests.elb
-
     - uses: actions/upload-artifact@v2
       with:
-        name: Deserializer
+        name: Deserializer(32-bit)
         path: |
-          src\Release
-          !src\Release\DeserializerTests*
-          !src\Release\SynergyTraditionalUnitTest.TestAdapter.dll
-          !src\Release\*.dbp
+          src\Release\x86
+
+  test:
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Deserializer(32-bit)
+        path: .\Artifacts
+
+    - name: Unzip Artifact
+      shell: powershell
+      run: Expand-Archive -Path .\Artifacts\Deserializer(32-bit).zip -Destination .\Artifacts\Deserializer(32-bit) -Force
+
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1
+
+    - name: Run Tests
+      shell: cmd
+      run: CHCP 437 && vstest.console.exe .\Artifacts\Deserializer(32-bit)\DeserializerTests.elb
+
+  release:
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: Deserializer(32-bit)
+        path: .\Artifacts
+
+    - name: Unzip Artifact
+      shell: powershell
+      run: Expand-Archive -Path .\Artifacts\Deserializer(32-bit).zip -Destination .\Artifacts\Deserializer(32-bit) -Force
+
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.RELEASE_TOKEN }}
+        artifacts: "Artifacts\Deserializer(32-bit)\*.elb,Artifacts\Deserializer(32-bit)\*.dbr"
+        body: New Deserializer Release
+        name: Deserializer(32-bit)
