@@ -43,8 +43,13 @@ jobs:
       run: Copy-Item -Path ".\src\Release\x86\*" -Destination ".\Deserializer(32-bit)" -Exclude "*.dbp","SynergyTraditionalUnitTest.TestAdapter.dll"
 
     - name: Release
-      uses: fnkr/github-action-ghr@v1
+      uses: Roang-zero1/github-create-release-action@master
       env:
-          GHR_COMPRESS: zip
-          GHR_PATH: .\Deserializer(32-bit)
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+    - name: Create GitHub release
+      uses: Roang-zero1/github-upload-release-artifacts-action@master
+      with:
+        args:
+        - Deserializer(32-bit)
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
