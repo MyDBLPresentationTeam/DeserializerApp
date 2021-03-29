@@ -45,3 +45,4 @@ jobs:
         artifacts: .\src\Release\x86\*.elb,.\src\Release\x86\*.dbr
         body: New Deserializer Release
         name: Deserializer(32-bit)
+        commit: main
