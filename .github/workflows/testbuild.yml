@@ -44,7 +44,7 @@ jobs:
 
     - name: Create tag
       id: create_tag
-      run: echo "::set-output name=tag::${{ env.GITHUB_REF }}"
+      run: echo "::set-output name=tag::${{ env.GITHUB_SHA }}"
 
     - name: Create Draft Release
       id: create_release
