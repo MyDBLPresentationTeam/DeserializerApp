@@ -50,6 +50,6 @@ jobs:
       uses: Roang-zero1/github-upload-release-artifacts-action@master
       with:
         args:
-        - Deserializer(32-bit)
+          Deserializer(32-bit)
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
