@@ -32,7 +32,7 @@ jobs:
       run: CHCP 437 && vstest.console.exe .\Artifacts\Deserializer(32-bit)\DeserializerTests.elb
 
     - name: Upload built files
-    - uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2
       with:
         name: Deserializer(32-bit)
         path: |
