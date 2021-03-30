@@ -67,8 +67,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./Deserializer(32-bit).zip
-        asset_name: ./Deserializer(32-bit).zip
+        asset_path: .\src\Release\x86\Deserializer(32-bit).zip
+        asset_name: Deserializer(32-bit).zip
         asset_content_type: application/zip
 
     - uses: eregon/publish-release@v1
