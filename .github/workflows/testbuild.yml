@@ -1,8 +1,9 @@
 name: Build and Release
 
 on:
-  branches:
-  - main
+  push:
+    branches:
+      - main
 
 env:
   # Path to the solution file relative to the root of the project.
