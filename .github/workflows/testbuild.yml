@@ -41,14 +41,14 @@ jobs:
     - name: Create Release Package
       shell: powershell
       run: |
-        Copy-Item -Path ".\src\Release\x86\*" -Destination ".\Deserializer(32-bit)\" -Exclude "*.dbp","SynergyTraditionalUnitTest.TestAdapter.dll"
-        Compress-Archive -Path ".\Deserializer(32-bit)\*" -DestinationPath ".\Deserializer(32-bit).zip"
+        Get-ChildItem -Path ".\src\Release\x86\" -Exclude *.dbp,*.dll,DeserializerTests* | Compress-Archive -DestinationPath ".\src\Release\x86\Deserializer(32-bit).zip"
 
     - name: Create tag name
       id: create_tag
       shell: powershell
       run: |
         $tag = [System.DateTime]::Now.ToString("yyyyMMddHHmmss")
+        Write-Host $tag
         echo "::set-output name=tag::$tag"
 
     - name: Create Draft Release
